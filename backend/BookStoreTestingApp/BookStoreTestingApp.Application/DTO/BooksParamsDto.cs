@@ -1,5 +1,4 @@
-﻿using BookStoreTestingApp.Application.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +8,7 @@ namespace BookStoreTestingApp.Application.DTO
 {
     public class BooksParamsDto
     {
-        public Language @Language { get; set; }
+        public string Language { get; set; }
 
         public int Seed { get; set; }
 
