@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35825.156 d17.13
+VisualStudioVersion = 17.13.35825.156
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookStoreTestinApp.Api", "BookStoreTestinApp.Api\BookStoreTestinApp.Api.csproj", "{70EE2C7C-664D-4304-BAFA-581FB927DA5E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookStoreTestingApp.Api", "BookStoreTestinApp.Api\BookStoreTestingApp.Api.csproj", "{70EE2C7C-664D-4304-BAFA-581FB927DA5E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookStoreTestingApp.Domain", "BookStoreTestingApp.Domain\BookStoreTestingApp.Domain.csproj", "{8E16AC1B-5B71-49BD-88B5-EDA2FDAE1688}"
 EndProject
