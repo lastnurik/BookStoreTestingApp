@@ -43,7 +43,7 @@ namespace BookStoreTestingApp.Application.Services
                         Reviews = Enumerable.Range(0, GenerateCount(faker, parameters.Reviews))
                         .Select(j => new ReviewDto
                         {
-                            Text = faker.Rant.Review(),
+                            Text = faker.Rant.Review(faker.Commerce.ProductName()),
                             Author = faker.Name.FullName()
                         })
                         .ToList()
