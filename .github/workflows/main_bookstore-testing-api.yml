@@ -8,13 +8,13 @@ on:
     branches:
       - main
     paths:
-      - 'backend/BookStoreTestingApp/BookStoreTestingApp.Api/**'
+      - 'backend/BookStoreTestingApp/BookStoreTestinApp.Api/**'
       - 'backend/BookStoreTestingApp/BookStoreTestingApp.Application/**'
       - 'backend/BookStoreTestingApp/BookStoreTestingApp.Domain/**'
   workflow_dispatch:
 
 env:
-  BACKEND_API_PATH: 'backend/BookStoreTestingApp/BookStoreTestingApp.Api' # Define the path for the API project
+  BACKEND_API_PATH: 'backend/BookStoreTestingApp/BookStoreTestinApp.Api' # Define the path for the API project
   DOTNET_VERSION: '8.x'
 
 jobs:
@@ -41,7 +41,7 @@ jobs:
 
       - name: dotnet publish
         # This command publishes the project without rebuilding.
-        run: dotnet publish BookStoreTestingApp.Api.csproj -c Release -o "${{github.workspace}}/myapp" --no-build
+        run: dotnet publish BookStoreTestinApp.Api.csproj -c Release -o "${{github.workspace}}/myapp" --no-build
         working-directory: ${{ env.BACKEND_API_PATH }}
 
       - name: Upload artifact for deployment job
@@ -79,5 +79,6 @@ jobs:
           slot-name: 'Production'
           package: .
           clean: true # Ensures a fresh deployment by deleting existing files
+
 
 
