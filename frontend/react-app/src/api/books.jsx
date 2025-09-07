@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BACKEND_URL = 'http://localhost:5063';
+const BACKEND_URL = 'https://bookstore-testing-api-esg3h8dscdgqgxf3.polandcentral-01.azurewebsites.net/';
 
 const api = axios.create({
   baseURL: BACKEND_URL,
