@@ -7,13 +7,21 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'backend/BookStoreTestingApp/BookStoreTestingApp.Api/**'
+      - 'backend/BookStoreTestingApp/BookStoreTestingApp.Application/**'
+      - 'backend/BookStoreTestingApp/BookStoreTestingApp.Domain/**'
   workflow_dispatch:
+
+env:
+  BACKEND_API_PATH: 'backend/BookStoreTestingApp/BookStoreTestingApp.Api' # Define the path for the API project
+  DOTNET_VERSION: '8.x'
 
 jobs:
   build:
     runs-on: windows-latest
     permissions:
-      contents: read #This is required for actions/checkout
+      contents: read # This is required for actions/checkout
 
     steps:
       - uses: actions/checkout@v4
@@ -21,33 +29,41 @@ jobs:
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.x'
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore dependencies
+        run: dotnet restore
+        working-directory: ${{ env.BACKEND_API_PATH }}
 
       - name: Build with dotnet
-        run: dotnet build --configuration Release
+        run: dotnet build --configuration Release --no-restore
+        working-directory: ${{ env.BACKEND_API_PATH }}
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+        # This command publishes the project without rebuilding.
+        run: dotnet publish InventoryManagement.Api.csproj -c Release -o "${{github.workspace}}/myapp" --no-build
+        working-directory: ${{ env.BACKEND_API_PATH }}
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          path: ${{github.workspace}}/myapp
 
   deploy:
     runs-on: windows-latest
     needs: build
     permissions:
-      id-token: write #This is required for requesting the JWT
-      contents: read #This is required for actions/checkout
+      id-token: write # This is required for requesting the JWT
+      contents: read # This is required for actions/checkout
 
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: .net-app
-      
+          path: .
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -55,11 +71,12 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_7E8CE3F1FBF64FCF90F0522B9EEFCE18 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_F18B7F29406F4CF9B538826CD5F83F3B }}
 
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
+      - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
+        id: deploy-to-webapp
         with:
           app-name: 'bookstore-testing-api'
           slot-name: 'Production'
           package: .
-          
+          clean: true # Ensures a fresh deployment by deleting existing files
+
