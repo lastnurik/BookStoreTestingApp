@@ -41,7 +41,7 @@ jobs:
 
       - name: dotnet publish
         # This command publishes the project without rebuilding.
-        run: dotnet publish InventoryManagement.Api.csproj -c Release -o "${{github.workspace}}/myapp" --no-build
+        run: dotnet publish BookStoreTestingApp.Api.csproj -c Release -o "${{github.workspace}}/myapp" --no-build
         working-directory: ${{ env.BACKEND_API_PATH }}
 
       - name: Upload artifact for deployment job
@@ -79,4 +79,5 @@ jobs:
           slot-name: 'Production'
           package: .
           clean: true # Ensures a fresh deployment by deleting existing files
+
 
